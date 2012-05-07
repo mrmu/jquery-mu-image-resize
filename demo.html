@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="zh-TW">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.5.0/build/cssreset/cssreset-min.css">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js?ver=1.7.0" ></script>
+		<script type='text/javascript' src='jquery.mu.image.resize.js'></script>
+		<title>jQuery Mu Image Resize - The jQuery Plugin for image resizing & croping.</title>
+		<script>
+			$(function(){			
+				$('.size-A').muImageResize({width: 150, height:200});
+				$('.size-B').muImageResize({width: 150, height:80});
+			});
+		</script>
+		<style>
+			h1 {font-size:2.2em; font-weight:bold; margin:16px 0;}
+			h2 {font-size:1.8em; font-weight:bold; margin:10px 0;}
+			footer{text-align:right}
+			.main_wrap{
+				width:80%;
+				margin:0 auto;
+			}
+			.code{
+				font-family: Courier New;
+			}
+			.sec{
+				float:left;
+				font-family: Courier New;
+				margin: 10px 10px 0 0;
+			}
+			ul{line-height:1.8em; list-style-type:circle; margin-left:18px;}
+			.arg{font-size:18px; font-weight:bold;}
+		
+		</style>
+	</head>
+	<body>
+	
+	<div class="main_wrap">
+		<article>
+		
+		<header>
+			<h1>jQuery Mu Image Resize</h1>
+		</header>
+
+		<p>Mu Image Resize 是一個用來作前端縮圖的jQuery Plugin，只要給定圖片的class名稱及你期望它縮小的寬、高即可自動依比例縮圖並裁切。<br>Mu Image Resize is a jQuery plugin to automatically resize & crop images with specific class names.</p>
+		<p>
+		<h2>Author: </h2>
+		<p>
+			Audi Lu / <a href="http://mrmu.com.tw/">mrmu studio</a>
+		</p>
+		<h2>Usage & Demo：</h2>
+			<div class="code">
+				&nbsp;&nbsp;$(<span style="color:#0000ff">function</span>(){
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;$(<span style="color:#A31515">'.size-A'</span>).muImageResize({width: 150, height:200});<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;$(<span style="color:#A31515">'.size-B'</span>).muImageResize({width: 150, height:80});<br>
+				&nbsp;&nbsp;});<br>
+			</div>
+		</p>
+
+		<div class="sec">
+			Original:<br><img src="imgs/vajra.jpg" alt="vajra">
+		</div>
+		<div class="sec">
+			Class <span style="color:#A31515">size-A</span>:<br><img src="imgs/vajra.jpg" alt="vajra" class="size-A">
+		</div>
+		<div class="sec">
+			Class <span style="color:#A31515">size-B</span>:<br><img src="imgs/vajra.jpg" alt="vajra" class="size-B">
+		</div>
+		
+		<div style="clear:both;"></div>
+		<p>
+		<h2>Arguments：</h2>
+			<ul>
+				<li><span class="arg">width</span> (int)(required)</li>
+				<li><span class="arg">height</span> (int)(required)</li>
+				<li><span class="arg">wrap_fix</span> (boolean)(optional): <br>預設為TRUE，假如它被設定為TRUE，在圖片完成縮放裁切後，會包覆一個div標籤，並設置固定尺寸及display:inline-block，這是為了讓圖片的位置符合一般預期，IE6請hack。<br>DEFAULT is TRUE. If it's TRUE then there is a div tag would be wrap the image for fix the position offset.</li>
+			</ul>
+		</p>
+		
+		<p>
+		<h2>Notice：</h2>
+		<ul>
+		<li>之所以需要wrap_fix這個參數來修正圖片位置，主要是因為本 Plugin 的原理，是使用CSS的Clip屬性來完成仿裁切的效果，在設定Clip時需設定position為absolute，以及Clip的範圍，為避免這些設定會影響圖片的位置顯示，才會使用包覆div的方式來修正。當效果套用至圖片後，其部份樣式設定可能不如預期，若您不了解 CSS Clip設定的原理，建議不要再附加任何樣式設定於圖片上。(例如：border相關設定、margin、padding 等)</li>
+		<li>Support：IE6+, Firefox, Chrome</li>
+		</p>
+		
+		<footer>
+			<h3>mrmu studio</h3>
+			<time datetime="2012-05-07">2012-05-07</time>
+		</footer>
+		
+		</article>	
+	</div>
+	
+	</body>
+</html>
