@@ -1,4 +1,4 @@
-;(function( $ ) {
+(function( $ ) {
 	$.fn.muImageResize = function( params ) {
 		var _defaultSettings = {
 			width:300,
@@ -6,7 +6,10 @@
 			wrap_fix:true // Let image display like in-line.
 		};
 		var _set = $.extend(_defaultSettings, params); 
-		var isIE6 = $.browser.msie && (6 == ~~ $.browser.version);
+		var isIE7 = $.browser.msie && (7 == ~~ $.browser.version);
+
+		//var anyDynamicSource = $(this).attr("src");
+		//$(this).attr("src",anyDynamicSource+ "?" + new Date().getTime());
 
 		// Just bind load event once per element.
 		return this.one('load', function() {
@@ -24,7 +27,7 @@
 				$(this).wrap(function(){
 					return '<div style="width:'+_set.width+'px; height:'+_set.height+'px; display:inline-block;" />';
 				});
-			}
+			}			
 			
 			// Merge position settings
 			var sh_margin_type='';
@@ -97,26 +100,28 @@
 			
 			// Crop img by set clip style.
 			$(this).css('clip','rect('+t+' '+r+' '+b+' '+l+')');
-			
-			var osh = parseInt($(this).css(sh_margin_type));
-			if ( !(!isNaN(parseFloat(osh)) && isFinite(osh)) ) osh = 0; // should be numeric.
-			
+
+			var osh = 0;
+			if('auto' != $(this).css(sh_margin_type)){
+				osh = parseInt($(this).css(sh_margin_type));
+			}
+		
 			if (0 < sh) {sh*=-1;}
 			sh += osh;
-						
+			
 			$(this).css(sh_margin_type, sh+'px');
 			$(this).css('position','absolute');
 			$(this).fadeIn('slow');
 		})
 		.one( "error", function() {
-			//$(this).hide(); // if image cannot be loaded.
+			//$(this).hide();
 		})
 		.each(function() {
 			$(this).hide();
 			// Trigger load event (for Gecko and MSIE)
-			if ( this.complete || isIE6 ) {
+			if ( this.complete || isIE7 ) {
 				$( this ).trigger( "load" ).trigger( "error" );
 			}
 		});
-	};	
+	};
 })( jQuery );
