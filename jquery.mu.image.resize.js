@@ -18,16 +18,16 @@
 			this.removeAttribute( "height" );
 			this.style.width = this.style.height = "";
 			
-			// Get original size for calcutation.
-			var ow = this.width;
-			var oh = this.height; 
-			//alert(ow+','+oh);
-			
 			if (_set.wrap_fix) {
 				$(this).wrap(function(){
 					return '<div style="width:'+_set.width+'px; height:'+_set.height+'px; display:inline-block;" />';
 				});
-			}			
+			}
+			
+			// Get original size for calcutation.
+			var ow = this.width;
+			var oh = this.height; 
+			//alert(ow+','+oh);
 			
 			// Merge position settings
 			var sh_margin_type='';
@@ -124,4 +124,5 @@
 			}
 		});
 	};
+	
 })( jQuery );
