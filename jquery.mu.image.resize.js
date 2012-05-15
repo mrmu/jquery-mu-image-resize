@@ -18,17 +18,29 @@
 			this.removeAttribute( "height" );
 			this.style.width = this.style.height = "";
 			
+			//[workaround] - msie need get width early
+			if ($.browser.msie)
+			{
+				// Get original size for calcutation.
+				var ow = this.width;
+				var oh = this.height;
+				//$(this).attr('alt',ow+':'+oh);
+				//alert(ow+','+oh);
+			}
+			
 			if (_set.wrap_fix) {
 				$(this).wrap(function(){
 					return '<div style="width:'+_set.width+'px; height:'+_set.height+'px; display:inline-block;" />';
 				});
 			}
 			
-			// Get original size for calcutation.
-			var ow = this.width;
-			var oh = this.height; 
-			//alert(ow+','+oh);
-			
+			if (!$.browser.msie)
+			{
+				// Get original size for calcutation.
+				var ow = this.width;
+				var oh = this.height;
+			}
+						
 			// Merge position settings
 			var sh_margin_type='';
 
