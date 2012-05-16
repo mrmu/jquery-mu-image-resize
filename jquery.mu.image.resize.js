@@ -18,14 +18,14 @@
 			this.removeAttribute( "height" );
 			this.style.width = this.style.height = "";
 			
+			var ow, oh;
+			
 			//[workaround] - msie need get width early
 			if ($.browser.msie)
 			{
 				// Get original size for calcutation.
-				var ow = this.width;
-				var oh = this.height;
-				//$(this).attr('alt',ow+':'+oh);
-				//alert(ow+','+oh);
+				ow = this.width;
+				oh = this.height;
 			}
 			
 			if (_set.wrap_fix) {
@@ -37,92 +37,99 @@
 			if (!$.browser.msie)
 			{
 				// Get original size for calcutation.
-				var ow = this.width;
-				var oh = this.height;
+				ow = this.width;
+				oh = this.height;
 			}
-						
-			// Merge position settings
-			var sh_margin_type='';
-
-			// if original image's width > height.
-			if (ow > oh) {
-				p = oh / _set.height; 
-				oh = _set.height; 
-				ow = ow / p;
-				
-				// original image width smaller than settings.
-				if (ow < _set.width){
-					// need to resize again, 
-					// because new image size range must can cover settings' range, than we can crop it correctly. 
-					p = ow / _set.width; 
-					ow = _set.width;
-					oh = oh / p;
-					
-					// the crop range would be in the center of new image size.
-					sh = (oh-_set.height)/2;
-					t=sh+'px';
-					r=_set.width+'px';
-					b=(_set.height+sh)+'px';
-					l='0px';
-					
-					// need to be adjust top position latter.
-					sh_margin_type = 'margin-top';
-					
-				// original image width bigger than settings.
-				}else{
-					// new image range can cover settings' range. 
-					sh = (ow-_set.width)/2;
-					t='0px';
-					r=(_set.width+sh)+'px';
-					b=_set.height+'px';
-					l=sh+'px';
-					// need to be adjust left position latter.
-					sh_margin_type = 'margin-left';
-				}
-			// ref above, change width to height then do same things.
+			
+			// if cannot get width or height.
+			if (0==ow || 0==oh){
+				$(this).width(_set.width);
+				$(this).height(_set.height);
 			}else{
-				p = ow / _set.width;
-				ow = _set.width;
-				oh = oh / p;
+					
+				// Merge position settings
+				var sh_margin_type='';
 
-				if (oh < _set.height) {
-					p = oh / _set.height;
-					oh = _set.height;
+				// if original image's width > height.
+				if (ow > oh) {
+					p = oh / _set.height; 
+					oh = _set.height; 
 					ow = ow / p;
 					
-					sh = (ow-_set.width)/2;
-					t='0px';
-					r=(_set.width+sh)+'px';
-					b=_set.height+'px';
-					l=sh+'px';
-					sh_margin_type = 'margin-left';
+					// original image width smaller than settings.
+					if (ow < _set.width){
+						// need to resize again, 
+						// because new image size range must can cover settings' range, than we can crop it correctly. 
+						p = ow / _set.width; 
+						ow = _set.width;
+						oh = oh / p;
+						
+						// the crop range would be in the center of new image size.
+						sh = (oh-_set.height)/2;
+						t=sh+'px';
+						r=_set.width+'px';
+						b=(_set.height+sh)+'px';
+						l='0px';
+						
+						// need to be adjust top position latter.
+						sh_margin_type = 'margin-top';
+						
+					// original image width bigger than settings.
+					}else{
+						// new image range can cover settings' range. 
+						sh = (ow-_set.width)/2;
+						t='0px';
+						r=(_set.width+sh)+'px';
+						b=_set.height+'px';
+						l=sh+'px';
+						// need to be adjust left position latter.
+						sh_margin_type = 'margin-left';
+					}
+				// ref above, change width to height then do same things.
 				}else{
-					sh = (oh-_set.height)/2;
-					t=sh+'px';
-					r=_set.width+'px';
-					b=(_set.height+sh)+'px';
-					l='0px';
-					sh_margin_type = 'margin-top';
-				}
-			}
-			
-			// Resize img.
-			$(this).width(ow);
-			$(this).height(oh);
-			
-			// Crop img by set clip style.
-			$(this).css('clip','rect('+t+' '+r+' '+b+' '+l+')');
+					p = ow / _set.width;
+					ow = _set.width;
+					oh = oh / p;
 
-			var osh = 0;
-			if('auto' != $(this).css(sh_margin_type)){
-				osh = parseInt($(this).css(sh_margin_type));
-			}
-		
-			if (0 < sh) {sh*=-1;}
-			sh += osh;
+					if (oh < _set.height) {
+						p = oh / _set.height;
+						oh = _set.height;
+						ow = ow / p;
+						
+						sh = (ow-_set.width)/2;
+						t='0px';
+						r=(_set.width+sh)+'px';
+						b=_set.height+'px';
+						l=sh+'px';
+						sh_margin_type = 'margin-left';
+					}else{
+						sh = (oh-_set.height)/2;
+						t=sh+'px';
+						r=_set.width+'px';
+						b=(_set.height+sh)+'px';
+						l='0px';
+						sh_margin_type = 'margin-top';
+					}
+				}
+				
+				// Resize img.
+				$(this).width(ow);
+				$(this).height(oh);
+				
+				// Crop img by set clip style.
+				$(this).css('clip','rect('+t+' '+r+' '+b+' '+l+')');
+
+				var osh = 0;
+				if('auto' != $(this).css(sh_margin_type)){
+					osh = parseInt($(this).css(sh_margin_type));
+				}
 			
-			$(this).css(sh_margin_type, sh+'px');
-			$(this).css('position','absolute');
+				if (0 < sh) {sh*=-1;}
+				sh += osh;
+				
+				$(this).css(sh_margin_type, sh+'px');
+				$(this).css('position','absolute');
+			}
 			$(this).fadeIn('slow');
 		})
 		.one( "error", function() {
@@ -131,7 +138,7 @@
 		.each(function() {
 			$(this).hide();
 			// Trigger load event (for Gecko and MSIE)
-			if ( this.complete || isIE7 ) {
+			if ( this.complete || $.browser.msie ) {
 				$( this ).trigger( "load" ).trigger( "error" );
 			}
 		});
